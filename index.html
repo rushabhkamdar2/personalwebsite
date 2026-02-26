@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rushabh Kamdar — GRC Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080810;
+    --surface: #0f0f1a;
+    --surface2: #161625;
+    --surface3: #1e1e32;
+    --purple: #6a0dad;
+    --purple-mid: #7b2fbf;
+    --purple-light: #9b4dea;
+    --purple-glow: rgba(106,13,173,0.35);
+    --purple-subtle: rgba(106,13,173,0.12);
+    --gold: #c9a84c;
+    --text: #e8e8f0;
+    --text-muted: #8888aa;
+    --text-dim: #555570;
+    --border: rgba(106,13,173,0.25);
+    --radius: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(8,8,16,0.75);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--purple-light); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--purple-light);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 6rem 2rem 4rem;
+    overflow: hidden;
+  }
+
+  /* Purple orb backgrounds */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(106,13,173,0.4) 0%, transparent 70%);
+    top: -150px; right: -100px;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(123,47,191,0.25) 0%, transparent 70%);
+    bottom: 0px; left: -80px;
+    animation: drift 16s ease-in-out infinite alternate-reverse;
+  }
+  .orb-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(155,77,234,0.15) 0%, transparent 70%);
+    top: 40%; left: 40%;
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(40px, 30px) scale(1.08); }
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 860px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    margin-bottom: 1.4rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-name .accent {
+    background: linear-gradient(135deg, var(--purple-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-tagline {
+    margin-top: 1.4rem;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--purple-light), transparent);
+    margin: 2rem auto;
+    opacity: 0;
+    animation: fadeIn 0.8s 0.8s forwards;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 2rem;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
+    box-shadow: 0 0 20px var(--purple-glow);
+  }
+  .btn-primary:hover {
+    background: var(--purple-mid);
+    box-shadow: 0 0 35px var(--purple-glow);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    padding: 0.75rem 2rem;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--purple-light);
+    color: var(--text);
+    transform: translateY(-2px);
+  }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.8s forwards;
+  }
+  .scroll-hint span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--purple-light), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.15); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+  }
+
+  .section-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--purple-light);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 3rem;
+  }
+
+  /* section separator */
+  .sep {
+    max-width: 960px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--surface);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    line-height: 1.9;
+    font-size: 0.97rem;
+    margin-bottom: 1.2rem;
+  }
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+
+  .tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--purple-light);
+    background: var(--purple-subtle);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .tag:hover {
+    background: rgba(106,13,173,0.25);
+    border-color: var(--purple-light);
+  }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--purple), var(--purple-light));
+    border-radius: 2px 0 0 2px;
+  }
+  .stat-card:hover {
+    border-color: var(--purple-mid);
+    transform: translateX(4px);
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+  }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .stat-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  /* ── EDUCATION ── */
+  #education {
+    background: var(--black);
+  }
+
+  .edu-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .edu-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, var(--purple-subtle), transparent 60%);
+    pointer-events: none;
+  }
+  .edu-card:hover {
+    border-color: var(--purple-mid);
+    box-shadow: 0 0 40px rgba(106,13,173,0.12);
+  }
+
+  .edu-school {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .edu-degree {
+    font-size: 0.9rem;
+    color: var(--purple-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .edu-location {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+  .edu-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--surface3);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .edu-courses {
+    margin-top: 1.5rem;
+  }
+  .edu-courses-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+  .edu-course-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* ── PROJECTS ── */
+  #projects {
+    background: var(--surface);
+  }
+
+  .projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .projects-header .section-title { margin-bottom: 0; }
+
+  .drive-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.5rem 1.1rem;
+    border-radius: 6px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .drive-link:hover {
+    background: var(--purple-subtle);
+    border-color: var(--purple-light);
+  }
+  .drive-link svg { width: 14px; height: 14px; }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--purple-light), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover {
+    border-color: var(--purple-mid);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(106,13,173,0.18);
+  }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-type {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .project-type::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--purple-light);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    flex: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .project-tag {
+    font-size: 0.62rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    background: var(--purple-subtle);
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project-arrow {
+    width: 28px; height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .project-card:hover .project-arrow {
+    background: var(--purple);
+    border-color: var(--purple);
+    color: #fff;
+    transform: rotate(45deg);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--black);
+    text-align: center;
+  }
+
+  #contact .section-label {
+    justify-content: center;
+  }
+  #contact .section-label::before { display: none; }
+  #contact .section-label::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--purple-light);
+  }
+
+  #contact .section-title {
+    margin-bottom: 1rem;
+  }
+
+  .contact-sub {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .contact-chip:hover {
+    background: var(--purple-subtle);
+    border-color: var(--purple-light);
+    color: var(--text);
+    transform: translateY(-2px);
+  }
+  .contact-chip svg { width: 14px; height: 14px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  footer span {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.animate-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .reveal.animate-hidden.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { gap: 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .edu-card { grid-template-columns: 1fr; }
+    .edu-year { display: none; }
+    section { padding: 4rem 1.25rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#hero" class="nav-logo">R<span>K</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-inner">
+    <h1 class="hero-name"><span class="accent">Rushabh</span><br><span class="accent">Kamdar</span></h1>
+    <p class="hero-tagline">Aspiring GRC / Risk Analyst</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      Early cybersecurity GRC professional with hands-on experience in risk assessments,
+      audits, and compliance. Passionate about federal consulting, technology risk, and
+      building secure, resilient organizations.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#about" class="btn-secondary">Learn More</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label reveal">About Me</p>
+    <h2 class="section-title reveal">Who I Am</h2>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm <strong>Rushabh Kamdar</strong>, an Information Science student at the University of Maryland
+          with a strong focus on <strong>Governance, Risk & Compliance (GRC)</strong>. I thrive at the intersection
+          of technology, policy, and security — helping organizations understand and manage their risk posture.
+        </p>
+        <p>
+          My hands-on experience spans <strong>risk assessments</strong>, <strong>security audits</strong>,
+          and <strong>user access reviews</strong>. I'm passionate about helping firms navigate the GRC landscape — organizing and managing the documentation, controls, and processes that empower organizations to make informed, risk-aware decisions with confidence.
+        </p>
+        <p>
+          I'm actively seeking opportunities in <strong>federal consulting</strong> and
+          <strong>technology risk</strong>, where I can contribute to meaningful compliance
+          and security programs while continuing to grow as a professional.
+        </p>
+
+        <div class="about-tags">
+          <span class="tag">Risk Assessment</span>
+          <span class="tag">Security Audits</span>
+          <span class="tag">NIST CSF</span>
+          <span class="tag">User Access Review</span>
+          <span class="tag">SOC 2</span>
+          <span class="tag">HIPAA</span>
+          <span class="tag">Documentation</span>
+          <span class="tag">Federal Consulting</span>
+          <span class="tag">Technology Risk</span>
+        </div>
+      </div>
+
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <p class="stat-label">Current Status</p>
+          <p class="stat-value">Open to Work</p>
+          <p class="stat-sub">Seeking GRC & Risk Analyst roles</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Focus Areas</p>
+          <p class="stat-value">Federal & Tech Risk</p>
+          <p class="stat-sub">Consulting, compliance, and controls</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Frameworks</p>
+          <p class="stat-value">NIST · MITRE AT&CK · HIPAA · ISO 27001</p>
+          <p class="stat-sub">Risk & compliance standards</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Strengths</p>
+          <p class="stat-value">Documentation & Comms</p>
+          <p class="stat-sub">Client-facing support & technical writing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="section-inner">
+    <p class="section-label reveal">Education</p>
+    <h2 class="section-title reveal">Academic Background</h2>
+
+    <div class="edu-card reveal">
+      <div>
+        <p class="edu-degree">Bachelor of Science · Information Science</p>
+        <h3 class="edu-school">University of Maryland</h3>
+        <p class="edu-location">College Park, Maryland</p>
+        <div class="edu-courses">
+          <p class="edu-courses-label">Relevant Coursework & Focus</p>
+          <div class="edu-course-list">
+            <span class="tag">Cybersecurity</span>
+            <span class="tag">Information Security Policy</span>
+            <span class="tag">Risk Management</span>
+            <span class="tag">IT Auditing</span>
+            <span class="tag">Database Management</span>
+            <span class="tag">Digital Forensics</span>
+            <span class="tag">Data Visualization</span>
+            <span class="tag">Python</span>
+            <span class="tag">FAIR Modeling</span>
+            <span class="tag">Networking & Architecture</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-year">2026</div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="projects-header">
+      <div>
+        <p class="section-label reveal">Projects</p>
+        <h2 class="section-title reveal">GRC Work</h2>
+      </div>
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="drive-link reveal">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        Full Drive Folder
+      </a>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Card 1 — Risk Assessment -->
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="project-card reveal">
+        <p class="project-type">Risk Assessment</p>
+        <h3 class="project-title">Enterprise Risk Assessment & Register</h3>
+        <p class="project-desc">
+          Built a full risk register for a simulated organization (Lemonav), identifying 11 risks across 
+          access control, data integrity, IAM, and operational risk. Each risk was scored by inherent and 
+          residual likelihood/impact, mapped to existing controls, assigned an owner, and given a 
+          prioritized remediation deadline.
+        </p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="project-tag">Risk Register</span>
+            <span class="project-tag">Residual Risk</span>
+            <span class="project-tag">Remediation</span>
+          </div>
+          <div class="project-arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 — Security Audit -->
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="project-card reveal">
+        <p class="project-type">Security Audit</p>
+        <h3 class="project-title">SOC 2 Security Controls Audit</h3>
+        <p class="project-desc">
+          Mapped 11 security controls (access reviews, MFA, onboarding/offboarding, RBAC, incident 
+          response, and more) to control owners with justifications, evidence requests, and completeness 
+          & accuracy criteria. Tracked in-progress items and flagged follow-ups for outstanding evidence 
+          collection.
+        </p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="project-tag">SOC 2</span>
+            <span class="project-tag">Control Mapping</span>
+            <span class="project-tag">Evidence</span>
+          </div>
+          <div class="project-arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 — TPRM -->
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="project-card reveal">
+        <p class="project-type">Third-Party Risk</p>
+        <h3 class="project-title">Vendor Risk Assessment (TPRM)</h3>
+        <p class="project-desc">
+          Conducted third-party risk assessments on 6 vendors (AdHubb, SkillSpring, CodeZen, Ledgerly, 
+          Designify, Zapier) — evaluating SOC 2 reports, pen test results, data retention policies, 
+          and SSO/MFA posture. Identified gaps, drafted security questions, analyzed CUECs, and issued 
+          final buy/reject recommendations.
+        </p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="project-tag">TPRM</span>
+            <span class="project-tag">Vendor Risk</span>
+            <span class="project-tag">CUEC Analysis</span>
+          </div>
+          <div class="project-arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4 — User Access Review -->
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="project-card reveal">
+        <p class="project-type">Access Management</p>
+        <h3 class="project-title">User Access Review (UAR)</h3>
+        <p class="project-desc">
+          Performed a full user access review across tools (Okta, Figma, Slack, Confluence, Gusto, 
+          Notion, and more), documenting each user's role, permissions, and escalating clarifying 
+          questions to managers. Issued revoke/retain/modify decisions and included a "Spot the Red 
+          Flags" analysis identifying 5 access control violations.
+        </p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="project-tag">IAM</span>
+            <span class="project-tag">Least Privilege</span>
+            <span class="project-tag">Red Flags</span>
+          </div>
+          <div class="project-arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5 — Risk Remediation -->
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="project-card reveal">
+        <p class="project-type">Risk Governance</p>
+        <h3 class="project-title">Risk Remediation Deadline Framework</h3>
+        <p class="project-desc">
+          Designed a tiered remediation deadline framework mapping residual risk scores to 
+          response urgency — from Critical (7-day target, CEO escalation) to Low (120-day target). 
+          Includes recommended vs. maximum deadlines and escalation protocols for each risk tier, 
+          supporting the broader risk register program.
+        </p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="project-tag">Risk Tiers</span>
+            <span class="project-tag">Escalation</span>
+            <span class="project-tag">Governance</span>
+          </div>
+          <div class="project-arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 6 — View All -->
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="project-card reveal" style="justify-content:center;align-items:center;border-style:dashed;text-align:center;gap:1rem;">
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--purple-subtle);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--purple-light)" stroke-width="2"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-muted);letter-spacing:0.05em;">View all files<br><span style="color:var(--purple-light);">on Google Drive →</span></p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ── RESUME ── -->
+<section id="resume">
+  <div class="section-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem;">
+      <div>
+        <p class="section-label reveal">Resume</p>
+        <h2 class="section-title reveal" style="margin-bottom:0;">My Resume</h2>
+      </div>
+      <a href="resume.pdf" download="Rushabh_Kamdar_Resume.pdf" class="btn-primary reveal" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+        Download PDF
+      </a>
+    </div>
+    <div class="reveal" style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface2);">
+      <iframe src="resume.pdf" width="100%" height="800px" style="display:block;border:none;" title="Rushabh Kamdar Resume">
+        <p style="padding:2rem;color:var(--text-muted);">Your browser doesn't support inline PDFs. <a href="resume.pdf" download style="color:var(--purple-light);">Download it here.</a></p>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="section-title reveal">Let's Connect</h2>
+    <p class="contact-sub reveal">
+      I'm actively looking for GRC and risk analyst opportunities. 
+      Feel free to reach out — I'd love to connect.
+    </p>
+    <div class="contact-links reveal">
+      <button id="emailBtn" onclick="navigator.clipboard.writeText('rushabh.kamdar12@gmail.com').then(() => { var b = document.getElementById('emailBtn'); b.querySelector('span').innerText = 'Copied!'; setTimeout(() => { b.querySelector('span').innerText = 'rushabh.kamdar12@gmail.com'; }, 2000); })" class="contact-chip" style="background:transparent;border:1px solid rgba(106,13,173,0.25);cursor:pointer;font-family:DM Sans,sans-serif;font-size:0.82rem;letter-spacing:0.06em;color:#8888aa;">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <span>rushabh.kamdar12@gmail.com</span>
+      </button>
+      <a href="https://www.linkedin.com/in/rushabh-kamdar-9a737421a/" target="_blank" class="contact-chip">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://drive.google.com/drive/folders/12IOrxCYpEuqTb5BA6iCwhxTQi7hRTP3P?usp=drive_link" target="_blank" class="contact-chip">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+        Portfolio Drive
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 Rushabh Kamdar</span>
+  <span style="color:var(--purple-light);letter-spacing:0.15em;font-size:0.65rem;">GRC · RISK · COMPLIANCE</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Scroll reveal - add hidden class only if IntersectionObserver is supported
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    reveals.forEach(el => el.classList.add('animate-hidden'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  }
+
+  // Active nav highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry =
